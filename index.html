@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Idade</title>
+    <!-- Materialize CSS CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            text-align: center;
+        }
+        .result {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #00796b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h4 class="teal-text">Calculadora de Idade</h4>
+        <p>Bem-vindo à Calculadora de Idade! Esta ferramenta simples e eficaz permite que você calcule sua idade com precisão, com base na data de nascimento fornecida. Abaixo, você encontrará informações detalhadas sobre como usar a calculadora, os benefícios de conhecer sua idade exata e algumas dicas interessantes relacionadas à idade.</p>
+        
+        <form id="ageCalculatorForm">
+            <div class="input-field">
+                <input type="date" id="birthdate" class="validate" required>
+                <label for="birthdate">Insira sua data de nascimento</label>
+            </div>
+            <button class="btn waves-effect waves-light teal" type="submit">Calcular Idade</button>
+        </form>
+        
+        <div class="result" id="result"></div>
+    </div>
+
+    <!-- Materialize JS and Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.getElementById('ageCalculatorForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get the birthdate from the input
+            const birthdate = document.getElementById('birthdate').value;
+
+            if (!birthdate) {
+                document.getElementById('result').innerText = 'Por favor, insira uma data de nascimento válida.';
+                return;
+            }
+
+            // Calculate the age
+            const birthDateObject = new Date(birthdate);
+            const today = new Date();
+            const ageYears = today.getFullYear() - birthDateObject.getFullYear();
+            const ageMonths = today.getMonth() - birthDateObject.getMonth();
+            const ageDays = today.getDate() - birthDateObject.getDate();
+
+            let finalYears = ageYears;
+            let finalMonths = ageMonths < 0 ? ageMonths + 12 : ageMonths;
+            let finalDays = ageDays < 0 ? ageDays + new Date(today.getFullYear(), today.getMonth(), 0).getDate() : ageDays;
+
+            if (ageMonths < 0 || (ageMonths === 0 && ageDays < 0)) {
+                finalYears--;
+            }
+
+            // Display the result
+            document.getElementById('result').innerText = `Você tem ${finalYears} anos, ${finalMonths} meses e ${finalDays} dias.`;
+        });
+    </script>
+</body>
+</html>
